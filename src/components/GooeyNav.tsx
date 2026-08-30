@@ -165,7 +165,13 @@ const GooeyNav = ({
             <li key={index} className={activeIndex === index ? 'active' : ''}>
               <a
                 href={item.href}
-                onClick={(e: MouseEvent<HTMLAnchorElement>) => handleClick({ currentTarget: e.currentTarget.parentElement as HTMLElement }, index)}
+                onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+                  handleClick({ currentTarget: e.currentTarget.parentElement as HTMLElement }, index);
+                  if (item.href.startsWith('#')) {
+                    e.preventDefault();
+                    document.getElementById(item.href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
                 onKeyDown={(e) => handleKeyDown(e, index)}
               >
                 {item.label}

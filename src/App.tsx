@@ -7,12 +7,13 @@ import {
   Check,
   CheckCircle2,
   ClipboardList,
+  Facebook,
   FileCheck2,
   Inbox,
   Instagram,
   LayoutDashboard,
-  Linkedin,
   Mail,
+  Phone,
   MapPin,
   Menu,
   MessageCircle,
@@ -65,6 +66,13 @@ function DarkGridBackdrop() {
 type WorkspaceState = ReturnType<typeof useNexusWorkspace>;
 
 const asset = (file: string) => `${import.meta.env.BASE_URL}${file}`;
+
+/** Smooth-scroll to an in-page section. Needed because the app uses hash routing,
+ *  so a plain `#seccion` anchor would be swallowed by the router. */
+function scrollToHash(href: string) {
+  if (!href.startsWith('#')) return;
+  document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 const navItems = [
   { label: 'Servicios', href: '#servicios' },
@@ -166,7 +174,16 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
           {menuOpen && (
             <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-[rgba(236,241,248,.14)] p-5 md:hidden">
               {navItems.map((item) => (
-                <a href={item.href} className="py-1 text-sm" onClick={() => setMenuOpen(false)} key={item.href}>
+                <a
+                  href={item.href}
+                  className="py-1 text-sm"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setMenuOpen(false);
+                    scrollToHash(item.href);
+                  }}
+                  key={item.href}
+                >
                   {item.label}
                 </a>
               ))}
@@ -196,7 +213,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 <Link href="/panel" className="btn btn-primary">
                   Ir al panel <ArrowRight size={16} />
                 </Link>
-                <a href="#servicios" className="btn btn-ghost-light">
+                <a href="#servicios" className="btn btn-ghost-light" onClick={(e) => { e.preventDefault(); scrollToHash('#servicios'); }}>
                   Conoce el método <ArrowDownRight size={16} />
                 </a>
               </div>
@@ -256,7 +273,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 La administración no tiene por qué sentirse distante. La convertimos en una herramienta
                 cotidiana para cuidar lo que haces y hacerlo crecer.
               </p>
-              <a href="#origen" className="mt-8 inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--ink)' }}>
+              <a href="#origen" className="mt-8 inline-flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--ink)' }} onClick={(e) => { e.preventDefault(); scrollToHash('#origen'); }}>
                 Por qué existimos <ArrowUpRight size={16} />
               </a>
             </div>
@@ -483,19 +500,25 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 ENCUÉNTRANOS
               </p>
               <div className="mt-5 flex flex-col gap-4 text-sm" style={{ color: 'rgba(236,241,248,.78)' }}>
-                <a href="mailto:hola@nexusadm.co" className="flex items-center gap-3 hover:text-white">
-                  <Mail size={17} /> hola@nexusadm.co
+                <a href="mailto:nexus.adm.sas@gmail.com" className="flex items-center gap-3 hover:text-white">
+                  <Mail size={17} /> nexus.adm.sas@gmail.com
+                </a>
+                <a href="https://wa.me/573147682797" target="_blank" rel="noreferrer" className="flex items-center gap-3 hover:text-white">
+                  <Phone size={17} /> +57 314 768 2797 <span className="text-[11px]" style={{ color: 'rgba(236,241,248,.5)' }}>· WhatsApp</span>
                 </a>
                 <span className="flex items-center gap-3">
                   <MapPin size={17} /> Colombia
                 </span>
               </div>
               <div className="mt-10 flex gap-3">
-                <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
+                <a href="https://www.instagram.com/nexusadm_sas" target="_blank" rel="noreferrer" aria-label="Instagram de NEXUS ADM SAS" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
                   <Instagram size={16} />
                 </a>
-                <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
-                  <Linkedin size={16} />
+                <a href="https://www.facebook.com/share/1Gnk9DiMaC/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Facebook de NEXUS ADM SAS" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
+                  <Facebook size={16} />
+                </a>
+                <a href="https://wa.me/573147682797" target="_blank" rel="noreferrer" aria-label="WhatsApp de NEXUS ADM SAS" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
+                  <Phone size={16} />
                 </a>
               </div>
             </div>
