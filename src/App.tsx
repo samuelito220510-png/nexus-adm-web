@@ -59,24 +59,33 @@ const navItems = [
    ============================================================ */
 
 function BrandMark({ dark = false }: { dark?: boolean }) {
+  const monoColor = dark ? '#f4f6fa' : 'var(--ink)';
+  const wordColor = dark ? 'var(--coral-soft)' : 'var(--coral)';
   return (
-    <Link href="/" className="flex items-center gap-3">
-      <span
-        className="grid h-9 w-9 place-items-center rounded-xl text-sm font-extrabold"
-        style={{
-          background: dark ? 'var(--coral)' : 'var(--ink)',
-          color: dark ? '#fff' : 'var(--paper)',
-        }}
-      >
-        N
-      </span>
-      <span
-        className="text-[13px] font-extrabold tracking-[.14em]"
-        style={{ color: dark ? 'var(--paper)' : 'var(--ink)' }}
-      >
-        NEXUS{' '}
-        <span className="font-medium" style={{ opacity: 0.55 }}>
-          ADM SAS
+    <Link href="/" className="flex items-center gap-2.5" aria-label="NEXUS ADM SAS — inicio">
+      <svg width="42" height="34" viewBox="0 0 42 34" aria-hidden="true">
+        <text
+          x="21"
+          y="28"
+          textAnchor="middle"
+          fontFamily="'Playfair Display', Georgia, serif"
+          fontSize="34"
+          fontWeight={600}
+          letterSpacing="-5"
+          fill={monoColor}
+        >
+          NA
+        </text>
+      </svg>
+      <span className="flex flex-col leading-none">
+        <span className="display text-[15px] font-semibold tracking-[.1em]" style={{ color: wordColor }}>
+          NEXUS ADM SAS
+        </span>
+        <span
+          className="mt-1 hidden text-[8px] font-semibold tracking-[.14em] sm:block"
+          style={{ color: dark ? 'rgba(236,241,248,.5)' : 'var(--muted)' }}
+        >
+          CONECTAMOS TU POTENCIAL CON RESULTADOS
         </span>
       </span>
     </Link>
@@ -108,7 +117,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
       <section className="relative overflow-hidden" style={{ background: 'var(--ink)', color: 'var(--paper)' }} id="inicio">
         <div className="absolute inset-0 hairline-grid opacity-60" />
         <div className="hero-glow" style={{ background: 'var(--coral)', width: 420, height: 420, top: -120, right: -80 }} />
-        <div className="hero-glow" style={{ background: '#c9a97e', width: 360, height: 360, bottom: -160, left: -100, opacity: 0.35 }} />
+        <div className="hero-glow" style={{ background: '#3358d4', width: 360, height: 360, bottom: -160, left: -100, opacity: 0.35 }} />
 
         <div className="relative z-10 section-wrap">
           {/* nav */}
@@ -131,7 +140,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             </div>
             <button
               type="button"
-              className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(246,242,234,.28)] md:hidden"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.28)] md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
@@ -140,7 +149,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
           </nav>
 
           {menuOpen && (
-            <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-[rgba(246,242,234,.14)] p-5 md:hidden">
+            <div className="mb-4 flex flex-col gap-3 rounded-2xl border border-[rgba(236,241,248,.14)] p-5 md:hidden">
               {navItems.map((item) => (
                 <a href={item.href} className="py-1 text-sm" onClick={() => setMenuOpen(false)} key={item.href}>
                   {item.label}
@@ -164,7 +173,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 <br />
                 Presencia para destacar.
               </h1>
-              <p className="reveal reveal-2 mt-8 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(246,242,234,.72)' }}>
+              <p className="reveal reveal-2 mt-8 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.72)' }}>
                 Acompañamos a microempresas y emprendedores a trabajar con más claridad, cumplir con
                 confianza y proyectar lo mejor de su oficio.
               </p>
@@ -176,7 +185,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                   Conoce el método <ArrowDownRight size={16} />
                 </a>
               </div>
-              <div className="reveal reveal-4 mt-12 flex flex-wrap gap-8 border-t border-[rgba(246,242,234,.14)] pt-7">
+              <div className="reveal reveal-4 mt-12 flex flex-wrap gap-8 border-t border-[rgba(236,241,248,.14)] pt-7">
                 <Stat value="3" label="Especialistas dedicados" />
                 <Stat value="Ley 594" label="Gestión documental" />
                 <Stat value="100%" label="Enfoque en microempresa" />
@@ -190,7 +199,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                   alt="Implementos de precisión de la línea beauty NEXUS ADM"
                   className="float-slow h-full w-full rounded-[18px] object-cover object-center mix-blend-multiply opacity-95"
                 />
-                <div className="absolute inset-3 rounded-[18px] border border-[rgba(246,242,234,.4)]" />
+                <div className="absolute inset-3 rounded-[18px] border border-[rgba(236,241,248,.4)]" />
               </div>
               <div className="absolute -bottom-6 -right-3 rounded-2xl px-5 py-4 shadow-lg" style={{ background: 'var(--paper)', color: 'var(--ink)' }}>
                 <p className="mono text-[9px]" style={{ color: 'var(--coral)' }}>
@@ -203,8 +212,8 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
         </div>
 
         {/* marquee */}
-        <div className="relative border-t border-[rgba(246,242,234,.14)]">
-          <div className="marquee-track flex items-center gap-8 whitespace-nowrap py-4 text-[10px] font-medium tracking-[.22em]" style={{ color: 'rgba(246,242,234,.5)' }}>
+        <div className="relative border-t border-[rgba(236,241,248,.14)]">
+          <div className="marquee-track flex items-center gap-8 whitespace-nowrap py-4 text-[10px] font-medium tracking-[.22em]" style={{ color: 'rgba(236,241,248,.5)' }}>
             {Array.from({ length: 2 }).map((_, block) => (
               <span key={block} className="flex items-center gap-8">
                 <span>MICROEMPRESAS CON FUTURO</span>
@@ -241,7 +250,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 const Icon = service.id === 'ley-594' ? FileCheck2 : service.id === 'calidad' ? ShieldCheck : ScanLine;
                 return (
                   <article className="card card-hover flex flex-col gap-4 p-6 sm:flex-row sm:items-start sm:gap-6" key={service.id}>
-                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl" style={{ background: 'rgba(224,113,74,.12)', color: 'var(--coral)' }}>
+                    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl" style={{ background: 'rgba(37,99,235,.12)', color: 'var(--coral)' }}>
                       <Icon size={20} strokeWidth={1.6} />
                     </span>
                     <div className="flex-1">
@@ -271,13 +280,13 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
         <div className="section-wrap">
           <div className="grid items-stretch gap-0 overflow-hidden rounded-[26px] lg:grid-cols-[.9fr_1.1fr]">
             <div className="relative min-h-[360px] p-8 sm:p-12" style={{ background: 'var(--coral)' }}>
-              <div className="absolute -right-10 -top-10 h-52 w-52 rounded-full border border-[rgba(27,35,51,.25)]" />
+              <div className="absolute -right-10 -top-10 h-52 w-52 rounded-full border border-[rgba(10,13,18,.25)]" />
               <div className="relative flex h-full flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="eyebrow" style={{ color: 'var(--ink)' }}>
                     NEXUS ADM SAS
                   </span>
-                  <span className="mono text-[10px]" style={{ color: 'rgba(27,35,51,.7)' }}>
+                  <span className="mono text-[10px]" style={{ color: 'rgba(10,13,18,.7)' }}>
                     CO / 2024
                   </span>
                 </div>
@@ -292,15 +301,15 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             <div className="flex flex-col justify-center p-8 sm:p-14" style={{ background: 'var(--ink)', color: 'var(--paper)' }}>
               <p className="eyebrow">02 / Nuestro origen</p>
               <h2 className="display mt-5 text-3xl leading-[1.05] sm:text-4xl">Nacimos de una pregunta sencilla.</h2>
-              <p className="mt-6 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(246,242,234,.7)' }}>
+              <p className="mt-6 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.7)' }}>
                 ¿Cómo acompañar a quienes hacen empresa todos los días, pero todavía cargan sus documentos,
                 sus decisiones y su crecimiento en la cabeza?
               </p>
-              <p className="mt-4 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(246,242,234,.7)' }}>
+              <p className="mt-4 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.7)' }}>
                 NEXUS ADM SAS surge para unir eficiencia administrativa, bienestar e imagen profesional en
                 una experiencia cercana para microempresas y emprendedores.
               </p>
-              <div className="mt-8 grid grid-cols-2 gap-5 border-t border-[rgba(246,242,234,.14)] pt-6">
+              <div className="mt-8 grid grid-cols-2 gap-5 border-t border-[rgba(236,241,248,.14)] pt-6">
                 <MiniPoint num="01" text="Eficiencia para la operación" />
                 <MiniPoint num="02" text="Bienestar para el día a día" />
               </div>
@@ -332,7 +341,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 alt="Bandejas de fibras para extensiones de pestañas y pinzas"
                 className="h-full min-h-[420px] w-full rounded-[18px] object-cover object-center mix-blend-multiply opacity-95"
               />
-              <div className="absolute inset-4 rounded-[18px] border border-[rgba(246,242,234,.5)]" />
+              <div className="absolute inset-4 rounded-[18px] border border-[rgba(236,241,248,.5)]" />
             </div>
             <div className="flex flex-col justify-center">
               <p className="max-w-[520px] text-lg leading-8" style={{ color: 'var(--ink)' }}>
@@ -382,12 +391,12 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
       {/* ---------------- Misión / Visión ---------------- */}
       <section className="py-6">
         <div className="section-wrap">
-          <div className="rounded-[26px] p-8 sm:p-14" style={{ background: '#ecdfca' }}>
+          <div className="rounded-[26px] p-8 sm:p-14" style={{ background: '#e9eef7' }}>
             <p className="eyebrow" style={{ color: 'var(--ink)' }}>
               04 / Hacia dónde vamos
             </p>
             <div className="mt-8 grid gap-10 sm:grid-cols-2 sm:gap-14">
-              <div className="border-t pt-5" style={{ borderColor: 'rgba(27,35,51,.2)' }}>
+              <div className="border-t pt-5" style={{ borderColor: 'rgba(10,13,18,.2)' }}>
                 <p className="mono text-[10px]" style={{ color: 'var(--coral)' }}>
                   MISIÓN
                 </p>
@@ -397,7 +406,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                   acompañen a quienes emprenden.
                 </p>
               </div>
-              <div className="border-t pt-5" style={{ borderColor: 'rgba(27,35,51,.2)' }}>
+              <div className="border-t pt-5" style={{ borderColor: 'rgba(10,13,18,.2)' }}>
                 <p className="mono text-[10px]" style={{ color: 'var(--coral)' }}>
                   VISIÓN / 2030
                 </p>
@@ -420,7 +429,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
               <h2 className="display mt-5 max-w-[640px] text-4xl leading-[1.0] sm:text-6xl">
                 Cuéntanos qué quieres ordenar.
               </h2>
-              <p className="mt-6 max-w-[500px] text-[15px] leading-7" style={{ color: 'rgba(246,242,234,.65)' }}>
+              <p className="mt-6 max-w-[500px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.65)' }}>
                 Déjanos tu correo y te contactaremos para conversar sobre administración, digitalización,
                 calidad o nuestra línea beauty.
               </p>
@@ -440,7 +449,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                     }}
                     placeholder="nombre@tuempresa.com"
                     className="field flex-1"
-                    style={{ background: 'transparent', color: 'var(--paper)', borderColor: 'rgba(246,242,234,.28)' }}
+                    style={{ background: 'transparent', color: 'var(--paper)', borderColor: 'rgba(236,241,248,.28)' }}
                   />
                   <button type="submit" className="btn btn-primary">
                     Quiero conversar <ArrowUpRight size={16} />
@@ -453,11 +462,11 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 )}
               </form>
             </div>
-            <div className="flex flex-col justify-end border-t border-[rgba(246,242,234,.14)] pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
-              <p className="mono text-[10px]" style={{ color: 'rgba(246,242,234,.45)' }}>
+            <div className="flex flex-col justify-end border-t border-[rgba(236,241,248,.14)] pt-8 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0">
+              <p className="mono text-[10px]" style={{ color: 'rgba(236,241,248,.45)' }}>
                 ENCUÉNTRANOS
               </p>
-              <div className="mt-5 flex flex-col gap-4 text-sm" style={{ color: 'rgba(246,242,234,.78)' }}>
+              <div className="mt-5 flex flex-col gap-4 text-sm" style={{ color: 'rgba(236,241,248,.78)' }}>
                 <a href="mailto:hola@nexusadm.co" className="flex items-center gap-3 hover:text-white">
                   <Mail size={17} /> hola@nexusadm.co
                 </a>
@@ -466,17 +475,17 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 </span>
               </div>
               <div className="mt-10 flex gap-3">
-                <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(246,242,234,.25)] hover:border-[color:var(--coral)]">
+                <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
                   <Instagram size={16} />
                 </a>
-                <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(246,242,234,.25)] hover:border-[color:var(--coral)]">
+                <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="grid h-10 w-10 place-items-center rounded-xl border border-[rgba(236,241,248,.25)] hover:border-[color:var(--coral)]">
                   <Linkedin size={16} />
                 </a>
               </div>
             </div>
           </div>
-          <footer className="mt-20 flex flex-col gap-4 border-t border-[rgba(246,242,234,.14)] pt-7 text-[11px] sm:flex-row sm:items-center sm:justify-between" style={{ color: 'rgba(246,242,234,.5)' }}>
-            <span className="font-bold tracking-[.16em]" style={{ color: 'rgba(246,242,234,.8)' }}>
+          <footer className="mt-20 flex flex-col gap-4 border-t border-[rgba(236,241,248,.14)] pt-7 text-[11px] sm:flex-row sm:items-center sm:justify-between" style={{ color: 'rgba(236,241,248,.5)' }}>
+            <span className="font-bold tracking-[.16em]" style={{ color: 'rgba(236,241,248,.8)' }}>
               NEXUS ADM SAS
             </span>
             <span>Administración que ordena. Imagen que impulsa.</span>
@@ -494,7 +503,7 @@ function Stat({ value, label }: { value: string; label: string }) {
       <p className="display text-2xl" style={{ color: 'var(--paper)' }}>
         {value}
       </p>
-      <p className="mt-1 text-[11px]" style={{ color: 'rgba(246,242,234,.55)' }}>
+      <p className="mt-1 text-[11px]" style={{ color: 'rgba(236,241,248,.55)' }}>
         {label}
       </p>
     </div>
@@ -507,7 +516,7 @@ function MiniPoint({ num, text }: { num: string; text: string }) {
       <span className="mono text-[10px]" style={{ color: 'var(--coral)' }}>
         {num}
       </span>
-      <p className="mt-2 text-xs leading-5" style={{ color: 'rgba(246,242,234,.6)' }}>
+      <p className="mt-2 text-xs leading-5" style={{ color: 'rgba(236,241,248,.6)' }}>
         {text}
       </p>
     </div>
@@ -547,20 +556,20 @@ function PanelShell({
             <button
               type="button"
               onClick={() => setMobileNav(false)}
-              className="grid h-8 w-8 place-items-center rounded-lg border border-[rgba(246,242,234,.16)] md:hidden"
+              className="grid h-8 w-8 place-items-center rounded-lg border border-[rgba(236,241,248,.16)] md:hidden"
               aria-label="Cerrar navegación"
             >
               <X size={15} />
             </button>
           </div>
-          <div className="rounded-2xl border border-[rgba(246,242,234,.1)] p-4">
-            <p className="mono text-[9px]" style={{ color: 'rgba(246,242,234,.4)' }}>
+          <div className="rounded-2xl border border-[rgba(236,241,248,.1)] p-4">
+            <p className="mono text-[9px]" style={{ color: 'rgba(236,241,248,.4)' }}>
               MODO ACTIVO
             </p>
             <p className="mt-2 text-sm font-bold">
               {active === 'shop' ? 'Tienda beauty' : workspace.role === 'client' ? 'Vista cliente' : 'Vista trabajador'}
             </p>
-            <p className="mt-1 text-[11px]" style={{ color: 'rgba(246,242,234,.5)' }}>
+            <p className="mt-1 text-[11px]" style={{ color: 'rgba(236,241,248,.5)' }}>
               Prototipo local · datos en tu navegador
             </p>
           </div>
@@ -575,7 +584,7 @@ function PanelShell({
               </span>
             </Link>
           </nav>
-          <div className="mt-auto border-t border-[rgba(246,242,234,.1)] pt-4">
+          <div className="mt-auto border-t border-[rgba(236,241,248,.1)] pt-4">
             <Link href="/" className="nav-item">
               <ArrowLeft size={16} /> Volver al sitio
             </Link>
@@ -677,7 +686,7 @@ function StatCard({ label, value, hint, dark = false }: { label: string; value: 
         {label}
       </p>
       <p className="mt-3 text-2xl font-bold">{value}</p>
-      <p className="mt-1 text-[11px]" style={{ color: dark ? 'rgba(246,242,234,.55)' : 'var(--muted)' }}>
+      <p className="mt-1 text-[11px]" style={{ color: dark ? 'rgba(236,241,248,.55)' : 'var(--muted)' }}>
         {hint}
       </p>
     </div>
@@ -717,7 +726,7 @@ function ChatPanel({
 
   return (
     <section className="card flex min-h-[460px] flex-col overflow-hidden" data-testid="panel-chat">
-      <div className="flex items-start justify-between border-b border-[color:var(--line)] p-5" style={{ background: 'rgba(224,113,74,.05)' }}>
+      <div className="flex items-start justify-between border-b border-[color:var(--line)] p-5" style={{ background: 'rgba(37,99,235,.05)' }}>
         <div>
           <p className="eyebrow">Conversación · {sender === 'client' ? 'con tu técnico' : 'con el cliente'}</p>
           <h2 className="mt-2 text-base font-bold">
@@ -833,7 +842,7 @@ function ClientView({ workspace }: { workspace: WorkspaceState }) {
       </div>
 
       {success && (
-        <div className="toast-success mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: '#e3efe7', color: '#2f6d5f' }}>
+        <div className="toast-success mb-6 flex items-center gap-2 rounded-xl px-4 py-3 text-sm" style={{ background: '#e7edfb', color: '#2145b8' }}>
           <CheckCircle2 size={17} /> {success}
         </div>
       )}
@@ -858,7 +867,7 @@ function ClientView({ workspace }: { workspace: WorkspaceState }) {
             <article className="card card-hover flex flex-col justify-between p-5" key={service.id}>
               <div>
                 <div className="flex items-start justify-between gap-3">
-                  <span className="grid h-11 w-11 place-items-center rounded-2xl text-xs font-bold" style={{ background: 'rgba(224,113,74,.12)', color: 'var(--coral)' }}>
+                  <span className="grid h-11 w-11 place-items-center rounded-2xl text-xs font-bold" style={{ background: 'rgba(37,99,235,.12)', color: 'var(--coral)' }}>
                     {service.specialistInitials}
                   </span>
                   <span className="mono text-[9px]" style={{ color: 'var(--coral)' }}>
@@ -940,7 +949,7 @@ function ClientView({ workspace }: { workspace: WorkspaceState }) {
                       {request.summary}
                     </p>
                     <div className="mt-4 flex items-center gap-2 text-[11px] font-semibold" style={{ color: 'var(--coral)' }}>
-                      <span className="grid h-6 w-6 place-items-center rounded-full text-[9px]" style={{ background: 'rgba(224,113,74,.14)' }}>
+                      <span className="grid h-6 w-6 place-items-center rounded-full text-[9px]" style={{ background: 'rgba(37,99,235,.14)' }}>
                         {service.specialistInitials}
                       </span>
                       {service.specialist} <MessageCircle size={13} className="ml-auto" />
@@ -961,7 +970,7 @@ function ClientView({ workspace }: { workspace: WorkspaceState }) {
       </div>
 
       {showRequestForm && (
-        <div className="fixed inset-0 z-50 grid place-items-center p-4" style={{ background: 'rgba(27,35,51,.55)' }}>
+        <div className="fixed inset-0 z-50 grid place-items-center p-4" style={{ background: 'rgba(10,13,18,.55)' }}>
           <div className="card w-full max-w-[560px] p-6 sm:p-8">
             <div className="flex items-start justify-between">
               <div>
@@ -1050,7 +1059,7 @@ function WorkerView({ workspace }: { workspace: WorkspaceState }) {
           </p>
         </div>
         <div className="flex items-center gap-2 rounded-xl border border-[color:var(--line)] bg-white px-3 py-2 text-[11px]" style={{ color: 'var(--muted)' }}>
-          <span className="h-2 w-2 rounded-full" style={{ background: '#347a6c' }} /> Datos locales de demo
+          <span className="h-2 w-2 rounded-full" style={{ background: '#2563eb' }} /> Datos locales de demo
         </div>
       </div>
 
@@ -1083,7 +1092,7 @@ function WorkerView({ workspace }: { workspace: WorkspaceState }) {
                     type="button"
                     onClick={() => setSelectedId(request.id)}
                     className={`grid w-full gap-3 p-5 text-left transition-colors sm:grid-cols-[1fr_auto] ${index > 0 ? 'border-t border-[color:var(--line)]' : ''} ${
-                      selected?.id === request.id ? 'bg-[rgba(224,113,74,.06)]' : 'hover:bg-[rgba(27,35,51,.02)]'
+                      selected?.id === request.id ? 'bg-[rgba(37,99,235,.06)]' : 'hover:bg-[rgba(10,13,18,.02)]'
                     }`}
                     key={request.id}
                     data-testid={`row-request-${request.id}`}
@@ -1150,7 +1159,7 @@ function WorkerRequestDetail({ request, workspace }: { request: ServiceRequest; 
         </p>
       </div>
       <div className="mt-6 flex items-center gap-3">
-        <span className="grid h-11 w-11 place-items-center rounded-2xl text-xs font-bold" style={{ background: 'rgba(224,113,74,.12)', color: 'var(--coral)' }}>
+        <span className="grid h-11 w-11 place-items-center rounded-2xl text-xs font-bold" style={{ background: 'rgba(37,99,235,.12)', color: 'var(--coral)' }}>
           {service.specialistInitials}
         </span>
         <div>
@@ -1182,7 +1191,7 @@ function WorkerRequestDetail({ request, workspace }: { request: ServiceRequest; 
         <MessageCircle size={15} /> Abrir chat con el cliente
       </button>
       {chatOpen && (
-        <div className="fixed inset-0 z-50 grid place-items-center p-4" style={{ background: 'rgba(27,35,51,.55)' }}>
+        <div className="fixed inset-0 z-50 grid place-items-center p-4" style={{ background: 'rgba(10,13,18,.55)' }}>
           <div className="w-full max-w-[620px]">
             <ChatPanel
               request={request}
@@ -1263,7 +1272,7 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
       </div>
 
       {confirmation && (
-        <div className="toast-success mb-6 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm" style={{ background: '#e3efe7', color: '#2f6d5f' }}>
+        <div className="toast-success mb-6 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-sm" style={{ background: '#e7edfb', color: '#2145b8' }}>
           <span className="flex items-center gap-2">
             <CheckCircle2 size={17} /> Pedido guardado en tu espacio demo. Te contactaremos para coordinarlo.
           </span>
@@ -1276,7 +1285,7 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
       <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
         <div className="relative min-h-[420px] overflow-hidden rounded-[26px] p-4" style={{ background: 'var(--coral)' }}>
           <img src={asset('nexus-lashes.jpg')} alt="Productos NEXUS para extensiones de pestañas" className="h-full min-h-[390px] w-full rounded-[18px] object-cover object-center mix-blend-multiply opacity-95" />
-          <div className="absolute inset-4 rounded-[18px] border border-[rgba(246,242,234,.5)]" />
+          <div className="absolute inset-4 rounded-[18px] border border-[rgba(236,241,248,.5)]" />
         </div>
         <section>
           <div className="mb-5 flex items-end justify-between">
@@ -1342,7 +1351,7 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
       </div>
 
       {cartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end" style={{ background: 'rgba(27,35,51,.45)' }}>
+        <div className="fixed inset-0 z-50 flex justify-end" style={{ background: 'rgba(10,13,18,.45)' }}>
           <aside className="h-full w-full max-w-[430px] overflow-y-auto p-6 shadow-2xl sm:p-8" style={{ background: 'var(--paper)' }}>
             <div className="flex items-start justify-between">
               <div>
@@ -1375,7 +1384,7 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
                             {formatCOP(pkg.price)} unidad
                           </p>
                         </div>
-                        <button type="button" onClick={() => workspace.removeFromCart(item.packageId)} style={{ color: '#b6532f' }} aria-label={`Eliminar ${pkg.label}`}>
+                        <button type="button" onClick={() => workspace.removeFromCart(item.packageId)} style={{ color: '#5b6472' }} aria-label={`Eliminar ${pkg.label}`}>
                           <Trash2 size={15} />
                         </button>
                       </div>
