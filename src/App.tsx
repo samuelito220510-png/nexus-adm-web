@@ -42,6 +42,25 @@ import {
   type WorkspaceRole,
   useNexusWorkspace,
 } from '@/hooks/use-nexus-workspace';
+import ShapeGrid from '@/components/ShapeGrid';
+import GooeyNav from '@/components/GooeyNav';
+
+/** Animated ShapeGrid tuned for dark (black) sections, in brand blue. */
+function DarkGridBackdrop() {
+  return (
+    <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+      <ShapeGrid
+        shape="square"
+        direction="diagonal"
+        speed={0.35}
+        squareSize={44}
+        borderColor="rgba(91,140,255,0.14)"
+        hoverFillColor="rgba(37,99,235,0.55)"
+        hoverTrailAmount={5}
+      />
+    </div>
+  );
+}
 
 type WorkspaceState = ReturnType<typeof useNexusWorkspace>;
 
@@ -115,7 +134,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
     <main>
       {/* ---------------- Hero ---------------- */}
       <section className="relative overflow-hidden" style={{ background: 'var(--ink)', color: 'var(--paper)' }} id="inicio">
-        <div className="absolute inset-0 hairline-grid opacity-60" />
+        <DarkGridBackdrop />
         <div className="hero-glow" style={{ background: 'var(--coral)', width: 420, height: 420, top: -120, right: -80 }} />
         <div className="hero-glow" style={{ background: '#3358d4', width: 360, height: 360, bottom: -160, left: -100, opacity: 0.35 }} />
 
@@ -123,12 +142,8 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
           {/* nav */}
           <nav className="flex min-h-[82px] items-center justify-between" aria-label="Navegación principal">
             <BrandMark dark />
-            <div className="hidden items-center gap-9 md:flex">
-              {navItems.map((item) => (
-                <a href={item.href} className="nav-link" key={item.href}>
-                  {item.label}
-                </a>
-              ))}
+            <div className="hidden md:block">
+              <GooeyNav items={navItems} />
             </div>
             <div className="hidden items-center gap-3 md:flex">
               <Link href="/tienda" className="btn btn-ghost-light btn-sm">
@@ -421,8 +436,9 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
       </section>
 
       {/* ---------------- Contacto ---------------- */}
-      <section className="mt-16 py-24 sm:py-28" style={{ background: 'var(--ink)', color: 'var(--paper)' }} id="contacto">
-        <div className="section-wrap">
+      <section className="relative overflow-hidden mt-16 py-24 sm:py-28" style={{ background: 'var(--ink)', color: 'var(--paper)' }} id="contacto">
+        <DarkGridBackdrop />
+        <div className="relative z-10 section-wrap">
           <div className="grid gap-14 lg:grid-cols-[1fr_.7fr] lg:gap-20">
             <div>
               <p className="eyebrow">05 / Demos el siguiente paso</p>
