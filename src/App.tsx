@@ -146,7 +146,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
         <div className="hero-glow" style={{ background: 'var(--coral)', width: 420, height: 420, top: -120, right: -80 }} />
         <div className="hero-glow" style={{ background: '#3358d4', width: 360, height: 360, bottom: -160, left: -100, opacity: 0.35 }} />
 
-        <div className="relative z-10 section-wrap">
+        <div className="relative section-wrap">
           {/* nav */}
           <nav className="flex min-h-[82px] items-center justify-between" aria-label="Navegación principal">
             <BrandMark dark />
@@ -647,7 +647,11 @@ function PanelShell({
               <h1 className="mt-1 text-lg font-bold">{title}</h1>
             </div>
             <div className="ml-auto flex items-center gap-3">
-              {showRoleSwitch && <RoleSwitch role={workspace.role} setRole={workspace.setRole} />}
+              {showRoleSwitch && (
+                <div className="hidden sm:block">
+                  <GooeyRoleSwitch role={workspace.role} setRole={workspace.setRole} />
+                </div>
+              )}
             </div>
           </div>
         </header>
@@ -682,6 +686,26 @@ function RoleSwitch({ role, setRole }: { role: WorkspaceRole; setRole: (role: Wo
       >
         <Wrench size={15} /> Trabajador
       </button>
+    </div>
+  );
+}
+
+/** Role switch rendered with the GooeyNav effect, on a dark chip. */
+function GooeyRoleSwitch({ role, setRole }: { role: WorkspaceRole; setRole: (role: WorkspaceRole) => void }) {
+  return (
+    <div className="gooey-chip" aria-label="Cambiar modo del panel">
+      <GooeyNav
+        items={[
+          { label: 'Cliente', href: '#' },
+          { label: 'Trabajador', href: '#' },
+        ]}
+        initialActiveIndex={role === 'client' ? 0 : 1}
+        onSelect={(index) => setRole(index === 0 ? 'client' : 'worker')}
+        particleCount={10}
+        particleDistances={[55, 8]}
+        particleR={70}
+        animationTime={500}
+      />
     </div>
   );
 }

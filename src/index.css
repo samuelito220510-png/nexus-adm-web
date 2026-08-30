@@ -234,6 +234,31 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* ---------- Gooey chip (role switch on light header) ---------- */
+.gooey-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 4px;
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: var(--shadow-sm);
+  /* Clip the goo filter's black backdrop so it can't spill onto the light panel. */
+  overflow: hidden;
+}
+.gooey-chip .gooey-nav-container nav ul {
+  gap: 0.4em;
+  padding: 0;
+  font-size: 0.78rem;
+}
+/* On the light panel header the particle goo can't blend cleanly, so keep only
+   the sliding pill + text morph (no black filter box). */
+.gooey-chip .gooey-nav-container .effect.filter {
+  display: none;
+}
+.gooey-chip .gooey-nav-container nav ul li a {
+  padding: 0.42em 1.05em;
+}
+
 /* ---------- Panel layout ---------- */
 .panel-shell { min-height: 100dvh; background: var(--paper); }
 .panel-sidebar { background: var(--ink); color: var(--paper); }

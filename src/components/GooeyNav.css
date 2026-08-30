@@ -23,7 +23,9 @@
 
 .gooey-nav-container nav ul {
   display: flex;
-  gap: 1.4em;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 1.2em;
   list-style: none;
   padding: 0 0.4em;
   margin: 0;
@@ -33,6 +35,14 @@
   font-size: 0.82rem;
   font-weight: 600;
   text-shadow: 0 1px 1px hsl(205deg 30% 10% / 0.2);
+}
+
+.gooey-nav-container nav ul li a {
+  white-space: nowrap;
+}
+
+.gooey-nav-container .effect.text {
+  white-space: nowrap;
 }
 
 .gooey-nav-container nav ul li {
