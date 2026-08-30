@@ -234,29 +234,48 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* ---------- Gooey chip (role switch on light header) ---------- */
-.gooey-chip {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 4px;
+/* ---------- Role toggle (sliding pill) ---------- */
+.role-toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
   border-radius: 999px;
   background: var(--ink);
   box-shadow: var(--shadow-sm);
-  /* Clip the goo filter's black backdrop so it can't spill onto the light panel. */
-  overflow: hidden;
 }
-.gooey-chip .gooey-nav-container nav ul {
-  gap: 0.4em;
-  padding: 0;
+.role-toggle-thumb {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(10, 13, 18, 0.28);
+  transition: transform 0.34s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+.role-toggle[data-active='worker'] .role-toggle-thumb {
+  transform: translateX(100%);
+}
+.role-toggle-opt {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
   font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: rgba(244, 246, 250, 0.72);
+  cursor: pointer;
+  transition: color 0.28s ease;
 }
-/* On the light panel header the particle goo can't blend cleanly, so keep only
-   the sliding pill + text morph (no black filter box). */
-.gooey-chip .gooey-nav-container .effect.filter {
-  display: none;
-}
-.gooey-chip .gooey-nav-container nav ul li a {
-  padding: 0.42em 1.05em;
+.role-toggle-opt.active {
+  color: var(--ink);
 }
 
 /* ---------- Panel layout ---------- */

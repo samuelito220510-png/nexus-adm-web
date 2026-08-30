@@ -649,7 +649,7 @@ function PanelShell({
             <div className="ml-auto flex items-center gap-3">
               {showRoleSwitch && (
                 <div className="hidden sm:block">
-                  <GooeyRoleSwitch role={workspace.role} setRole={workspace.setRole} />
+                  <RoleToggle role={workspace.role} setRole={workspace.setRole} />
                 </div>
               )}
             </div>
@@ -690,22 +690,32 @@ function RoleSwitch({ role, setRole }: { role: WorkspaceRole; setRole: (role: Wo
   );
 }
 
-/** Role switch rendered with the GooeyNav effect, on a dark chip. */
-function GooeyRoleSwitch({ role, setRole }: { role: WorkspaceRole; setRole: (role: WorkspaceRole) => void }) {
+/** Role switch with a smooth sliding pill (always-visible animation, any background). */
+function RoleToggle({ role, setRole }: { role: WorkspaceRole; setRole: (role: WorkspaceRole) => void }) {
+  const isClient = role === 'client';
   return (
-    <div className="gooey-chip" aria-label="Cambiar modo del panel">
-      <GooeyNav
-        items={[
-          { label: 'Cliente', href: '#' },
-          { label: 'Trabajador', href: '#' },
-        ]}
-        initialActiveIndex={role === 'client' ? 0 : 1}
-        onSelect={(index) => setRole(index === 0 ? 'client' : 'worker')}
-        particleCount={10}
-        particleDistances={[55, 8]}
-        particleR={70}
-        animationTime={500}
-      />
+    <div className="role-toggle" data-active={role} role="tablist" aria-label="Cambiar modo del panel">
+      <span className="role-toggle-thumb" aria-hidden="true" />
+      <button
+        type="button"
+        role="tab"
+        aria-selected={isClient}
+        className={`role-toggle-opt ${isClient ? 'active' : ''}`}
+        onClick={() => setRole('client')}
+        data-testid="button-role-client"
+      >
+        <UserRound size={15} /> Cliente
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={!isClient}
+        className={`role-toggle-opt ${!isClient ? 'active' : ''}`}
+        onClick={() => setRole('worker')}
+        data-testid="button-role-worker"
+      >
+        <Wrench size={15} /> Trabajador
+      </button>
     </div>
   );
 }
@@ -1289,7 +1299,7 @@ function Panel({ workspace }: { workspace: WorkspaceState }) {
         <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>
           MODO
         </span>
-        <RoleSwitch role={workspace.role} setRole={workspace.setRole} />
+        <RoleToggle role={workspace.role} setRole={workspace.setRole} />
       </div>
       {workspace.role === 'client' ? <ClientView workspace={workspace} /> : <WorkerView workspace={workspace} />}
     </PanelShell>
