@@ -32,7 +32,15 @@ export type ChatMessage = {
   time: string;
 };
 
-export type CartItem = { packageId: string; quantity: number };
+export type CartItem = { productId: string; quantity: number };
+
+export type ShopProduct = {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string; // URL pública o data URL (para productos subidos por el trabajador)
+};
 
 export const serviceCatalog: Service[] = [
   { id: 'ley-594', number: '01', title: 'Ley 594 / gestión documental', shortTitle: 'Ley 594', description: 'Orden, trazabilidad y sentido para tus documentos.', specialist: 'Stefania Córdoba Buitrón', specialistRole: 'Técnico 1', specialistInitials: 'SC' },
@@ -44,6 +52,14 @@ export const shopPackages = [
   { id: 'esencial', label: 'Esencial', price: 78000, detail: 'Una base confiable para comenzar.', included: ['Selección de fibras', 'Bandeja de extensiones', 'Implementos de aplicación'] },
   { id: 'profesional', label: 'Profesional', price: 146000, detail: 'Para elevar cada cita y cada resultado.', included: ['Mix de fibras', 'Pinzas de precisión', 'Implementos de aplicación', 'Organizador de trabajo'] },
   { id: 'estudio', label: 'Estudio', price: 228000, detail: 'Una operación beauty que se siente lista.', included: ['Selección completa de fibras', 'Kit de pinzas profesionales', 'Implementos de aplicación', 'Organizador', 'Reposición de insumos'] },
+];
+
+const productImage = `${import.meta.env.BASE_URL}nexus-lashes.jpg`;
+
+export const defaultProducts: ShopProduct[] = [
+  { id: 'pestanas-punto-a-punto', name: 'Pestañas punto a punto', price: 45000, description: 'Extensiones punto a punto para un acabado natural, definido y de larga duración.', image: productImage },
+  { id: 'pegante-pestanas', name: 'Pegante de pestañas', price: 38000, description: 'Adhesivo profesional de secado rápido y fijación duradera para cada aplicación.', image: productImage },
+  { id: 'pinza-pestanas-punto-a-punto', name: 'Pinza para pestañas punto a punto', price: 52000, description: 'Pinza de precisión diseñada para el trabajo punto a punto con máximo control.', image: productImage },
 ];
 
 const seedRequests: ServiceRequest[] = [
@@ -74,6 +90,7 @@ export function useNexusWorkspace() {
   const [requests, setRequests] = useState<ServiceRequest[]>(() => readStorage('nexus-requests', seedRequests));
   const [messages, setMessages] = useState<ChatMessage[]>(() => readStorage('nexus-messages', seedMessages));
   const [cart, setCart] = useState<CartItem[]>(() => readStorage('nexus-cart', []));
+  const [products, setProducts] = useState<ShopProduct[]>(() => readStorage('nexus-products', defaultProducts));
   const [role, setRoleState] = useState<WorkspaceRole>(() => readStorage('nexus-demo-role', 'client'));
 
   const setRole = useCallback((nextRole: WorkspaceRole) => {
@@ -99,30 +116,42 @@ export function useNexusWorkspace() {
     setMessages((current) => { const next = [...current, message]; writeStorage('nexus-messages', next); return next; });
   }, []);
 
-  const addToCart = useCallback((packageId: string) => {
+  const addToCart = useCallback((productId: string) => {
     setCart((current) => {
-      const exists = current.find((item) => item.packageId === packageId);
-      const next = exists ? current.map((item) => item.packageId === packageId ? { ...item, quantity: item.quantity + 1 } : item) : [...current, { packageId, quantity: 1 }];
+      const exists = current.find((item) => item.productId === productId);
+      const next = exists ? current.map((item) => item.productId === productId ? { ...item, quantity: item.quantity + 1 } : item) : [...current, { productId, quantity: 1 }];
       writeStorage('nexus-cart', next); return next;
     });
   }, []);
 
-  const changeCartQuantity = useCallback((packageId: string, delta: number) => {
+  const changeCartQuantity = useCallback((productId: string, delta: number) => {
     setCart((current) => {
-      const next = current.map((item) => item.packageId === packageId ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0);
+      const next = current.map((item) => item.productId === productId ? { ...item, quantity: item.quantity + delta } : item).filter((item) => item.quantity > 0);
       writeStorage('nexus-cart', next); return next;
     });
   }, []);
 
-  const removeFromCart = useCallback((packageId: string) => {
-    setCart((current) => { const next = current.filter((item) => item.packageId !== packageId); writeStorage('nexus-cart', next); return next; });
+  const removeFromCart = useCallback((productId: string) => {
+    setCart((current) => { const next = current.filter((item) => item.productId !== productId); writeStorage('nexus-cart', next); return next; });
+  }, []);
+
+  const addProduct = useCallback((product: Omit<ShopProduct, 'id'>) => {
+    const newProduct: ShopProduct = { ...product, id: `p-${Date.now()}` };
+    setProducts((current) => { const next = [...current, newProduct]; writeStorage('nexus-products', next); return next; });
+    return newProduct;
+  }, []);
+
+  const removeProduct = useCallback((productId: string) => {
+    setProducts((current) => { const next = current.filter((item) => item.id !== productId); writeStorage('nexus-products', next); return next; });
+    setCart((current) => { const next = current.filter((item) => item.productId !== productId); writeStorage('nexus-cart', next); return next; });
   }, []);
 
   const getService = useCallback((serviceId: string) => serviceCatalog.find((item) => item.id === serviceId) ?? serviceCatalog[0], []);
+  const getProduct = useCallback((productId: string) => products.find((item) => item.id === productId), [products]);
   const cartCount = useMemo(() => cart.reduce((total, item) => total + item.quantity, 0), [cart]);
-  const cartTotal = useMemo(() => cart.reduce((total, item) => total + (shopPackages.find((pkg) => pkg.id === item.packageId)?.price ?? 0) * item.quantity, 0), [cart]);
+  const cartTotal = useMemo(() => cart.reduce((total, item) => total + (products.find((pkg) => pkg.id === item.productId)?.price ?? 0) * item.quantity, 0), [cart, products]);
 
-  return { role, setRole, requests, messages, createRequest, updateStatus, sendMessage, cart, cartCount, cartTotal, addToCart, changeCartQuantity, removeFromCart, getService };
+  return { role, setRole, requests, messages, createRequest, updateStatus, sendMessage, cart, cartCount, cartTotal, addToCart, changeCartQuantity, removeFromCart, getService, products, addProduct, removeProduct, getProduct };
 }
 
 export function formatCOP(value: number) {

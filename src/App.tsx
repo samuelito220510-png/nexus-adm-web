@@ -1,4 +1,4 @@
-import { type FormEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { type ChangeEvent, type FormEvent, type ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowDownRight,
   ArrowLeft,
@@ -9,6 +9,7 @@ import {
   ClipboardList,
   Facebook,
   FileCheck2,
+  ImagePlus,
   Inbox,
   Instagram,
   LayoutDashboard,
@@ -1310,10 +1311,103 @@ function Panel({ workspace }: { workspace: WorkspaceState }) {
    Shop
    ============================================================ */
 
+function ProductForm({ workspace }: { workspace: WorkspaceState }) {
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
+  const [error, setError] = useState('');
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setError('El archivo debe ser una imagen.'); return; }
+    if (file.size > 2_500_000) { setError('La imagen es muy pesada (máx. 2.5 MB).'); return; }
+    const reader = new FileReader();
+    reader.onload = () => { setImage(String(reader.result)); setError(''); };
+    reader.readAsDataURL(file);
+  };
+
+  const reset = () => {
+    setName(''); setPrice(''); setDescription(''); setImage(''); setError('');
+    if (fileRef.current) fileRef.current.value = '';
+  };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const numericPrice = Number(price);
+    if (!name.trim()) { setError('Escribe el nombre del producto.'); return; }
+    if (!numericPrice || numericPrice <= 0) { setError('Ingresa un precio válido.'); return; }
+    if (!image) { setError('Agrega una imagen del producto.'); return; }
+    workspace.addProduct({
+      name: name.trim(),
+      price: Math.round(numericPrice),
+      description: description.trim() || 'Producto de la línea beauty NEXUS.',
+      image,
+    });
+    reset();
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="card mb-8 p-6" data-testid="form-add-product">
+      <div className="flex items-center gap-2">
+        <ImagePlus size={18} style={{ color: 'var(--coral)' }} />
+        <h3 className="text-lg font-bold">Agregar producto</h3>
+      </div>
+      <p className="mt-1 text-xs" style={{ color: 'var(--muted)' }}>
+        Publica un nuevo producto con su imagen. Se guarda en este navegador (prototipo local).
+      </p>
+
+      <div className="mt-5 grid gap-5 lg:grid-cols-[200px_1fr]">
+        <div>
+          <label className="flex aspect-[4/3] w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-[color:var(--line-strong)] text-center" style={{ background: 'var(--paper-2, #f7f7f5)' }}>
+            {image ? (
+              <img src={image} alt="Vista previa del producto" className="h-full w-full object-cover" />
+            ) : (
+              <span className="flex flex-col items-center gap-2 px-3 text-xs" style={{ color: 'var(--muted)' }}>
+                <ImagePlus size={22} style={{ color: 'var(--coral)' }} />
+                Subir imagen
+              </span>
+            )}
+            <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="hidden" data-testid="input-product-image" />
+          </label>
+        </div>
+
+        <div className="grid gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="block">
+              <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>NOMBRE</span>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Pestañas punto a punto" className="field mt-1 w-full" data-testid="input-product-name" />
+            </label>
+            <label className="block">
+              <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>PRECIO (COP)</span>
+              <input type="number" min="0" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="45000" className="field mt-1 w-full" data-testid="input-product-price" />
+            </label>
+          </div>
+          <label className="block">
+            <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>DESCRIPCIÓN</span>
+            <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} placeholder="Breve descripción del producto…" className="field mt-1 w-full resize-none" data-testid="input-product-description" />
+          </label>
+          {error && <p className="text-xs font-semibold" style={{ color: '#c02626' }}>{error}</p>}
+          <div className="flex gap-3">
+            <button type="submit" className="btn btn-primary btn-sm" data-testid="button-save-product">
+              <Plus size={15} /> Publicar producto
+            </button>
+            <button type="button" onClick={reset} className="btn btn-outline btn-sm">
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+}
+
 function ShopView({ workspace }: { workspace: WorkspaceState }) {
-  const [selectedPackage, setSelectedPackage] = useState(shopPackages[1].id);
   const [cartOpen, setCartOpen] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
+  const isWorker = workspace.role === 'worker';
 
   const submitOrder = () => {
     if (workspace.cartCount > 0) {
@@ -1324,7 +1418,7 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
   };
 
   return (
-    <PanelShell active="shop" workspace={workspace} eyebrow="03 / Tienda NEXUS" title="Línea beauty">
+    <PanelShell active="shop" workspace={workspace} eyebrow="03 / Tienda NEXUS" title="Línea beauty" showRoleSwitch>
       <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <p className="eyebrow">Insumos para una práctica pulida</p>
@@ -1355,73 +1449,66 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
         </div>
       )}
 
-      <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr]">
-        <div className="relative min-h-[420px] overflow-hidden rounded-[26px] p-4" style={{ background: 'var(--coral)' }}>
-          <img src={asset('nexus-lashes.jpg')} alt="Productos NEXUS para extensiones de pestañas" className="h-full min-h-[390px] w-full rounded-[18px] object-cover object-center mix-blend-multiply opacity-95" />
-          <div className="absolute inset-4 rounded-[18px] border border-[rgba(236,241,248,.5)]" />
+      {isWorker && <ProductForm workspace={workspace} />}
+
+      <div className="mb-5 flex items-end justify-between">
+        <div>
+          <p className="eyebrow">Catálogo</p>
+          <h3 className="mt-2 text-xl font-bold">{isWorker ? 'Productos publicados' : 'Nuestros productos'}</h3>
         </div>
-        <section>
-          <div className="mb-5 flex items-end justify-between">
-            <div>
-              <p className="eyebrow">Catálogo</p>
-              <h3 className="mt-2 text-xl font-bold">Elige tu paquete</h3>
-            </div>
-            <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>
-              COP · IVA INCLUIDO
-            </span>
-          </div>
-          <div className="space-y-3">
-            {shopPackages.map((pkg) => (
-              <div
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelectedPackage(pkg.id)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') setSelectedPackage(pkg.id);
-                }}
-                className={`card card-hover block w-full cursor-pointer p-5 text-left ${selectedPackage === pkg.id ? 'ring-2 ring-[color:var(--coral)]' : ''}`}
-                key={pkg.id}
-                data-testid={`card-package-${pkg.id}`}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <span className="mono text-[9px]" style={{ color: 'var(--coral)' }}>
-                      PAQUETE {pkg.id.toUpperCase()}
-                    </span>
-                    <h4 className="mt-2 text-lg font-bold">{pkg.label}</h4>
-                    <p className="mt-1 text-xs" style={{ color: 'var(--muted)' }}>
-                      {pkg.detail}
-                    </p>
-                  </div>
-                  <span className="text-base font-bold">{formatCOP(pkg.price)}</span>
-                </div>
-                {selectedPackage === pkg.id && (
-                  <div className="mt-5 border-t border-[color:var(--line)] pt-4">
-                    <ul className="grid gap-2 sm:grid-cols-2">
-                      {pkg.included.map((item) => (
-                        <li className="flex items-center gap-2 text-xs" style={{ color: 'var(--muted)' }} key={item}>
-                          <Check size={13} style={{ color: 'var(--coral)' }} /> {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      type="button"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        workspace.addToCart(pkg.id);
-                      }}
-                      className="btn btn-primary btn-sm mt-4"
-                      data-testid={`button-add-cart-${pkg.id}`}
-                    >
-                      <Plus size={15} /> Agregar al carrito
-                    </button>
-                  </div>
+        <span className="mono text-[9px]" style={{ color: 'var(--muted)' }}>
+          COP · IVA INCLUIDO
+        </span>
+      </div>
+
+      {workspace.products.length === 0 ? (
+        <div className="card flex flex-col items-center justify-center py-16 text-center">
+          <ShoppingBag size={30} style={{ color: 'var(--coral)' }} strokeWidth={1.3} />
+          <p className="mt-4 text-sm font-bold">Aún no hay productos.</p>
+          <p className="mt-2 max-w-[260px] text-xs leading-5" style={{ color: 'var(--muted)' }}>
+            {isWorker ? 'Agrega tu primer producto con el formulario de arriba.' : 'Muy pronto tendremos productos disponibles.'}
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {workspace.products.map((product) => (
+            <div className="card card-hover flex flex-col overflow-hidden p-0" key={product.id} data-testid={`card-product-${product.id}`}>
+              <div className="relative aspect-[4/3] w-full overflow-hidden" style={{ background: 'var(--coral)' }}>
+                <img src={product.image} alt={product.name} className="h-full w-full object-cover object-center" />
+                {isWorker && (
+                  <button
+                    type="button"
+                    onClick={() => workspace.removeProduct(product.id)}
+                    className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg shadow-md"
+                    style={{ background: 'var(--paper)', color: '#c02626' }}
+                    aria-label={`Eliminar ${product.name}`}
+                    data-testid={`button-remove-product-${product.id}`}
+                  >
+                    <Trash2 size={15} />
+                  </button>
                 )}
               </div>
-            ))}
-          </div>
-        </section>
-      </div>
+              <div className="flex flex-1 flex-col p-5">
+                <h4 className="text-base font-bold leading-snug">{product.name}</h4>
+                <p className="mt-1.5 flex-1 text-xs leading-5" style={{ color: 'var(--muted)' }}>
+                  {product.description}
+                </p>
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <span className="text-base font-bold">{formatCOP(product.price)}</span>
+                  <button
+                    type="button"
+                    onClick={() => workspace.addToCart(product.id)}
+                    className="btn btn-primary btn-sm"
+                    data-testid={`button-add-cart-${product.id}`}
+                  >
+                    <Plus size={15} /> Agregar
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {cartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end" style={{ background: 'rgba(10,13,18,.45)' }}>
@@ -1446,30 +1533,33 @@ function ShopView({ workspace }: { workspace: WorkspaceState }) {
             ) : (
               <div className="mt-8 space-y-4">
                 {workspace.cart.map((item) => {
-                  const pkg = shopPackages.find((entry) => entry.id === item.packageId);
-                  if (!pkg) return null;
+                  const product = workspace.getProduct(item.productId);
+                  if (!product) return null;
                   return (
-                    <div className="border-b border-[color:var(--line)] pb-4" key={item.packageId} data-testid={`row-cart-${item.packageId}`}>
+                    <div className="border-b border-[color:var(--line)] pb-4" key={item.productId} data-testid={`row-cart-${item.productId}`}>
                       <div className="flex justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-bold">{pkg.label}</p>
-                          <p className="mt-1 text-xs" style={{ color: 'var(--muted)' }}>
-                            {formatCOP(pkg.price)} unidad
-                          </p>
+                        <div className="flex items-center gap-3">
+                          <img src={product.image} alt={product.name} className="h-11 w-11 shrink-0 rounded-lg object-cover" />
+                          <div>
+                            <p className="text-sm font-bold leading-tight">{product.name}</p>
+                            <p className="mt-1 text-xs" style={{ color: 'var(--muted)' }}>
+                              {formatCOP(product.price)} unidad
+                            </p>
+                          </div>
                         </div>
-                        <button type="button" onClick={() => workspace.removeFromCart(item.packageId)} style={{ color: '#5b6472' }} aria-label={`Eliminar ${pkg.label}`}>
+                        <button type="button" onClick={() => workspace.removeFromCart(item.productId)} style={{ color: '#5b6472' }} aria-label={`Eliminar ${product.name}`}>
                           <Trash2 size={15} />
                         </button>
                       </div>
                       <div className="mt-3 flex items-center gap-2">
-                        <button type="button" onClick={() => workspace.changeCartQuantity(item.packageId, -1)} className="grid h-7 w-7 place-items-center rounded-lg border border-[color:var(--line-strong)]" aria-label="Reducir cantidad">
+                        <button type="button" onClick={() => workspace.changeCartQuantity(item.productId, -1)} className="grid h-7 w-7 place-items-center rounded-lg border border-[color:var(--line-strong)]" aria-label="Reducir cantidad">
                           <Minus size={13} />
                         </button>
                         <span className="w-7 text-center text-xs font-bold">{item.quantity}</span>
-                        <button type="button" onClick={() => workspace.changeCartQuantity(item.packageId, 1)} className="grid h-7 w-7 place-items-center rounded-lg border border-[color:var(--line-strong)]" aria-label="Aumentar cantidad">
+                        <button type="button" onClick={() => workspace.changeCartQuantity(item.productId, 1)} className="grid h-7 w-7 place-items-center rounded-lg border border-[color:var(--line-strong)]" aria-label="Aumentar cantidad">
                           <Plus size={13} />
                         </button>
-                        <span className="ml-auto text-sm font-bold">{formatCOP(pkg.price * item.quantity)}</span>
+                        <span className="ml-auto text-sm font-bold">{formatCOP(product.price * item.quantity)}</span>
                       </div>
                     </div>
                   );
