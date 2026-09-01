@@ -206,7 +206,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                 Presencia para destacar.
               </h1>
               <p className="reveal reveal-2 mt-8 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.72)' }}>
-                Acompañamos a microempresas y emprendedores a trabajar con más claridad, cumplir con
+                Acompañamos a mipymes y emprendedores a trabajar con más claridad, cumplir con
                 confianza y proyectar lo mejor de su oficio.
               </p>
               <div className="reveal reveal-3 mt-9 flex flex-wrap items-center gap-3">
@@ -220,7 +220,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
               <div className="reveal reveal-4 mt-12 flex flex-wrap gap-8 border-t border-[rgba(236,241,248,.14)] pt-7">
                 <Stat value="3" label="Especialistas dedicados" />
                 <Stat value="Ley 594" label="Gestión documental" />
-                <Stat value="100%" label="Enfoque en microempresa" />
+                <Stat value="100%" label="Enfoque en mipymes" />
               </div>
             </div>
 
@@ -339,7 +339,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
               </p>
               <p className="mt-4 max-w-[520px] text-[15px] leading-7" style={{ color: 'rgba(236,241,248,.7)' }}>
                 NEXUS ADM SAS surge para unir eficiencia administrativa, bienestar e imagen profesional en
-                una experiencia cercana para microempresas y emprendedores.
+                una experiencia cercana para mipymes y emprendedores.
               </p>
               <div className="mt-8 grid grid-cols-2 gap-5 border-t border-[rgba(236,241,248,.14)] pt-6">
                 <MiniPoint num="01" text="Eficiencia para la operación" />
