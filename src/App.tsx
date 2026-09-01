@@ -37,7 +37,6 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import {
   formatCOP,
   serviceCatalog,
-  shopPackages,
   type ChatMessage,
   type RequestStatus,
   type ServiceRequest,
@@ -126,10 +125,8 @@ function BrandMark({ dark = false }: { dark?: boolean }) {
 
 function PublicHome({ workspace }: { workspace: WorkspaceState }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activePackage, setActivePackage] = useState('profesional');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const selectedPackage = shopPackages.find((item) => item.id === activePackage) ?? shopPackages[1];
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -249,7 +246,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
           <div className="marquee-track flex items-center gap-8 whitespace-nowrap py-4 text-[10px] font-medium tracking-[.22em]" style={{ color: 'rgba(236,241,248,.5)' }}>
             {Array.from({ length: 2 }).map((_, block) => (
               <span key={block} className="flex items-center gap-8">
-                <span>MICROEMPRESAS CON FUTURO</span>
+                <span>MIPYMES CON FUTURO</span>
                 <span style={{ color: 'var(--coral)' }}>●</span>
                 <span>ORDEN QUE SE NOTA</span>
                 <span style={{ color: 'var(--coral)' }}>●</span>
@@ -378,43 +375,25 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             </div>
             <div className="flex flex-col justify-center">
               <p className="max-w-[520px] text-lg leading-8" style={{ color: 'var(--ink)' }}>
-                Paquetes de extensiones de pestañas e implementos elaborados con fibras sintéticas y naturales
-                durables, seleccionados para acompañar una práctica pulida y confiable.
+                Nuestra línea beauty reúne los insumos esenciales para el trabajo de extensiones de pestañas:
+                fibras, adhesivos y pinzas seleccionados con la misma exigencia de nuestros servicios, para
+                acompañar una práctica pulida, segura y confiable.
               </p>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {shopPackages.map((item) => (
-                  <button
-                    type="button"
-                    key={item.id}
-                    onClick={() => setActivePackage(item.id)}
-                    className={`btn btn-sm ${activePackage === item.id ? 'btn-dark' : 'btn-outline'}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-              <div className="card mt-6 p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="text-xl font-bold">{selectedPackage.label}</h3>
-                    <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
-                      {selectedPackage.detail}
+              <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                {workspace.products.slice(0, 3).map((product) => (
+                  <div className="card p-3" key={product.id}>
+                    <div className="aspect-[4/3] w-full overflow-hidden rounded-xl" style={{ background: 'var(--coral)' }}>
+                      <img src={product.image} alt={product.name} className="h-full w-full object-cover object-center" />
+                    </div>
+                    <h4 className="mt-3 text-sm font-bold leading-snug">{product.name}</h4>
+                    <p className="mt-1 text-sm font-bold" style={{ color: 'var(--coral)' }}>
+                      {formatCOP(product.price)}
                     </p>
                   </div>
-                  <span className="text-lg font-bold" style={{ color: 'var(--coral)' }}>
-                    {formatCOP(selectedPackage.price)}
-                  </span>
-                </div>
-                <ul className="mt-5 grid gap-2.5 sm:grid-cols-2">
-                  {selectedPackage.included.map((item) => (
-                    <li className="flex items-center gap-2 text-sm" style={{ color: 'var(--muted)' }} key={item}>
-                      <Check size={15} style={{ color: 'var(--coral)' }} /> {item}
-                    </li>
-                  ))}
-                </ul>
+                ))}
               </div>
-              <Link href="/tienda" className="btn btn-primary mt-6 self-start">
-                Explorar tienda <ArrowUpRight size={16} />
+              <Link href="/tienda" className="btn btn-primary mt-8 self-start">
+                Explorar la línea beauty <ArrowUpRight size={16} />
               </Link>
             </div>
           </div>
