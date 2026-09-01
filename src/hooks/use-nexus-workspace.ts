@@ -35,9 +35,9 @@ export type ChatMessage = {
 export type CartItem = { packageId: string; quantity: number };
 
 export const serviceCatalog: Service[] = [
-  { id: 'ley-594', number: '01', title: 'Ley 594 / gestión documental', shortTitle: 'Ley 594', description: 'Orden, trazabilidad y sentido para tus documentos.', specialist: 'Laura Gómez', specialistRole: 'Especialista en gestión documental', specialistInitials: 'LG' },
-  { id: 'calidad', number: '02', title: 'Control y calidad del servicio', shortTitle: 'Control y calidad', description: 'Estándares prácticos para convertir buenas intenciones en procesos consistentes.', specialist: 'Andrés Pérez', specialistRole: 'Coordinador de control y servicio', specialistInitials: 'AP' },
-  { id: 'digitalizacion', number: '03', title: 'Digitalización contable y comercial', shortTitle: 'Digitalización', description: 'Soportes y transacciones a la mano para decidir con información.', specialist: 'Camila Rojas', specialistRole: 'Especialista en transformación digital', specialistInitials: 'CR' },
+  { id: 'ley-594', number: '01', title: 'Ley 594 / gestión documental', shortTitle: 'Ley 594', description: 'Orden, trazabilidad y sentido para tus documentos.', specialist: 'Stefania Córdoba Buitrón', specialistRole: 'Técnico 1', specialistInitials: 'SC' },
+  { id: 'calidad', number: '02', title: 'Control y calidad del servicio', shortTitle: 'Control y calidad', description: 'Estándares prácticos para convertir buenas intenciones en procesos consistentes.', specialist: 'Camilo Soto López', specialistRole: 'Técnico 2', specialistInitials: 'CS' },
+  { id: 'digitalizacion', number: '03', title: 'Digitalización contable y comercial', shortTitle: 'Digitalización', description: 'Soportes y transacciones a la mano para decidir con información.', specialist: 'Vida Isachy', specialistRole: 'Técnico 3', specialistInitials: 'VI' },
 ];
 
 export const shopPackages = [
@@ -53,7 +53,7 @@ const seedRequests: ServiceRequest[] = [
 
 const seedMessages: ChatMessage[] = [
   { id: 'm-1', requestId: 'NX-104', sender: 'specialist', text: 'Hola Valentina. Revisé tu solicitud de gestión documental. Podemos comenzar por clasificar contratos, facturas y soportes de proveedores.', time: '08:48' },
-  { id: 'm-2', requestId: 'NX-104', sender: 'client', text: 'Perfecto, Laura. Tenemos los documentos en carpetas separadas, pero no un criterio único.', time: '09:03' },
+  { id: 'm-2', requestId: 'NX-104', sender: 'client', text: 'Perfecto, Stefania. Tenemos los documentos en carpetas separadas, pero no un criterio único.', time: '09:03' },
   { id: 'm-3', requestId: 'NX-104', sender: 'specialist', text: 'Ese es un buen punto de partida. Te enviaré una primera estructura para validar hoy.', time: '09:11' },
 ];
 
