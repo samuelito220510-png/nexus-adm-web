@@ -62,7 +62,7 @@ export const defaultProducts: ShopProduct[] = [
   { id: 'pestanas-18', name: 'Pestañas punto a punto', price: 18000, description: '240 pestañas punto a punto individuales (DIY). Mayor rendimiento por caja.', image: productImage('pestanas-punto-a-punto-18.jpg') },
   { id: 'pestanas-20', name: 'Pestañas punto a punto', price: 20000, description: 'Set completo de pestañas punto a punto (30D/40D/50D) en varias medidas, con pinza y pegante.', image: productImage('pestanas-punto-a-punto-20.jpg') },
   { id: 'pegante', name: 'Pegante de pestañas', price: 8500, description: 'Adhesivo de fijación fuerte para pestañas. Secado rápido y larga duración.', image: productImage('pegante.jpg') },
-  { id: 'pinzas', name: 'Pinzas para pestañas', price: 11000, description: 'Pinzas de precisión con punta curva para una aplicación cómoda y exacta.', image: productImage('pinzas.jpg') },
+  { id: 'pinzas', name: 'Pinzas para pestañas', price: 7000, description: 'Pinzas de precisión con punta curva para una aplicación cómoda y exacta.', image: productImage('pinzas.jpg') },
 ];
 
 const seedRequests: ServiceRequest[] = [
@@ -93,7 +93,7 @@ export function useNexusWorkspace() {
   const [requests, setRequests] = useState<ServiceRequest[]>(() => readStorage('nexus-requests', seedRequests));
   const [messages, setMessages] = useState<ChatMessage[]>(() => readStorage('nexus-messages', seedMessages));
   const [cart, setCart] = useState<CartItem[]>(() => readStorage('nexus-cart', []));
-  const [products, setProducts] = useState<ShopProduct[]>(() => readStorage('nexus-products-v2', defaultProducts));
+  const [products, setProducts] = useState<ShopProduct[]>(() => readStorage('nexus-products-v3', defaultProducts));
   const [role, setRoleState] = useState<WorkspaceRole>(() => readStorage('nexus-demo-role', 'client'));
 
   const setRole = useCallback((nextRole: WorkspaceRole) => {
@@ -140,12 +140,12 @@ export function useNexusWorkspace() {
 
   const addProduct = useCallback((product: Omit<ShopProduct, 'id'>) => {
     const newProduct: ShopProduct = { ...product, id: `p-${Date.now()}` };
-    setProducts((current) => { const next = [...current, newProduct]; writeStorage('nexus-products-v2', next); return next; });
+    setProducts((current) => { const next = [...current, newProduct]; writeStorage('nexus-products-v3', next); return next; });
     return newProduct;
   }, []);
 
   const removeProduct = useCallback((productId: string) => {
-    setProducts((current) => { const next = current.filter((item) => item.id !== productId); writeStorage('nexus-products-v2', next); return next; });
+    setProducts((current) => { const next = current.filter((item) => item.id !== productId); writeStorage('nexus-products-v3', next); return next; });
     setCart((current) => { const next = current.filter((item) => item.productId !== productId); writeStorage('nexus-cart', next); return next; });
   }, []);
 
