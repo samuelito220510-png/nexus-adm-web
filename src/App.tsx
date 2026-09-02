@@ -375,9 +375,9 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             </div>
             <div className="flex flex-col justify-center">
               <p className="max-w-[520px] text-lg leading-8" style={{ color: 'var(--ink)' }}>
-                Nuestra línea beauty reúne los insumos esenciales para el trabajo de extensiones de pestañas:
-                fibras, adhesivos y pinzas seleccionados con la misma exigencia de nuestros servicios, para
-                acompañar una práctica pulida, segura y confiable.
+                Nuestra especialidad son las pestañas punto a punto: una técnica precisa que ubica cada
+                extensión pelo por pelo para lograr un acabado natural, definido y de larga duración. Junto a
+                los adhesivos y las pinzas ideales, encontrarás todo lo necesario para un trabajo impecable.
               </p>
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {workspace.products.slice(0, 3).map((product) => (
