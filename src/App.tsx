@@ -375,9 +375,9 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             </div>
             <div className="flex flex-col justify-center">
               <p className="max-w-[520px] text-lg leading-8" style={{ color: 'var(--ink)' }}>
-                Nuestra especialidad son las pestañas punto a punto: una técnica precisa que ubica cada
-                extensión pelo por pelo para lograr un acabado natural, definido y de larga duración. Junto a
-                los adhesivos y las pinzas ideales, encontrarás todo lo necesario para un trabajo impecable.
+                Vendemos pestañas punto a punto y todo lo que necesitas para trabajarlas: adhesivos y pinzas
+                de precisión. Productos seleccionados para un acabado natural, definido y de larga duración,
+                pensados para quienes buscan calidad en cada aplicación.
               </p>
               <div className="mt-8 grid gap-3 sm:grid-cols-3">
                 {workspace.products.slice(0, 3).map((product) => (
