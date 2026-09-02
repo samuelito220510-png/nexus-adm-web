@@ -368,7 +368,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
             <div className="relative min-h-[440px] overflow-hidden rounded-[26px] p-4" style={{ background: 'var(--coral)' }}>
               <img
                 src={asset('nexus-lashes.jpg')}
-                alt="Bandejas de fibras para extensiones de pestañas y pinzas"
+                alt="Pestañas punto a punto y pinzas de la línea beauty NEXUS"
                 className="h-full min-h-[420px] w-full rounded-[18px] object-cover object-center mix-blend-multiply opacity-95"
               />
               <div className="absolute inset-4 rounded-[18px] border border-[rgba(236,241,248,.5)]" />

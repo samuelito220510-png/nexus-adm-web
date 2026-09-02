@@ -57,8 +57,8 @@ export const shopPackages = [
 const productImage = (file: string) => `${import.meta.env.BASE_URL}products/${file}`;
 
 export const defaultProducts: ShopProduct[] = [
-  { id: 'pestanas-12', name: 'Pestañas punto a punto', price: 12000, description: 'Bandeja de fibras 40D, curvatura D. Efecto natural y ligero para el día a día.', image: productImage('pestanas-punto-a-punto-12.jpg') },
-  { id: 'pestanas-15', name: 'Pestañas punto a punto', price: 15000, description: 'Bandeja de fibras 60D, 14 mm. Volumen definido y uniforme.', image: productImage('pestanas-punto-a-punto-15.jpg') },
+  { id: 'pestanas-12', name: 'Pestañas punto a punto', price: 12000, description: 'Pestañas punto a punto 40D, curvatura D. Efecto natural y ligero para el día a día.', image: productImage('pestanas-punto-a-punto-12.jpg') },
+  { id: 'pestanas-15', name: 'Pestañas punto a punto', price: 15000, description: 'Pestañas punto a punto 60D, 14 mm. Volumen definido y uniforme.', image: productImage('pestanas-punto-a-punto-15.jpg') },
   { id: 'pestanas-18', name: 'Pestañas punto a punto', price: 18000, description: '240 clusters individuales (DIY). Mayor rendimiento por caja.', image: productImage('pestanas-punto-a-punto-18.jpg') },
   { id: 'pestanas-20', name: 'Pestañas punto a punto', price: 20000, description: 'Set completo de clusters (30D/40D/50D) en varias medidas, con pinza y pegante.', image: productImage('pestanas-punto-a-punto-20.jpg') },
   { id: 'pegante', name: 'Pegante de pestañas', price: 8500, description: 'Adhesivo de fijación fuerte para pestañas. Secado rápido y larga duración.', image: productImage('pegante.jpg') },
