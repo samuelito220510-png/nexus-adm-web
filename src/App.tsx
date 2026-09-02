@@ -317,7 +317,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
                     NEXUS ADM SAS
                   </span>
                   <span className="mono text-[10px]" style={{ color: 'rgba(10,13,18,.7)' }}>
-                    CO / 2024
+                    CO / 2026
                   </span>
                 </div>
                 <div>
@@ -508,7 +508,7 @@ function PublicHome({ workspace }: { workspace: WorkspaceState }) {
               NEXUS ADM SAS
             </span>
             <span>Administración que ordena. Imagen que impulsa.</span>
-            <span>© 2024 · Colombia</span>
+            <span>© 2026 · Colombia</span>
           </footer>
         </div>
       </section>
