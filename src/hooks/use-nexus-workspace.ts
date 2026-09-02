@@ -54,12 +54,15 @@ export const shopPackages = [
   { id: 'estudio', label: 'Estudio', price: 228000, detail: 'Una operación beauty que se siente lista.', included: ['Selección completa de fibras', 'Kit de pinzas profesionales', 'Implementos de aplicación', 'Organizador', 'Reposición de insumos'] },
 ];
 
-const productImage = `${import.meta.env.BASE_URL}nexus-lashes.jpg`;
+const productImage = (file: string) => `${import.meta.env.BASE_URL}products/${file}`;
 
 export const defaultProducts: ShopProduct[] = [
-  { id: 'pestanas-punto-a-punto', name: 'Pestañas punto a punto', price: 45000, description: 'Extensiones punto a punto para un acabado natural, definido y de larga duración.', image: productImage },
-  { id: 'pegante-pestanas', name: 'Pegante de pestañas', price: 38000, description: 'Adhesivo profesional de secado rápido y fijación duradera para cada aplicación.', image: productImage },
-  { id: 'pinza-pestanas-punto-a-punto', name: 'Pinza para pestañas punto a punto', price: 52000, description: 'Pinza de precisión diseñada para el trabajo punto a punto con máximo control.', image: productImage },
+  { id: 'pestanas-12', name: 'Pestañas punto a punto', price: 12000, description: 'Bandeja de fibras 40D, curvatura D. Efecto natural y ligero para el día a día.', image: productImage('pestanas-punto-a-punto-12.jpg') },
+  { id: 'pestanas-15', name: 'Pestañas punto a punto', price: 15000, description: 'Bandeja de fibras 60D, 14 mm. Volumen definido y uniforme.', image: productImage('pestanas-punto-a-punto-15.jpg') },
+  { id: 'pestanas-18', name: 'Pestañas punto a punto', price: 18000, description: '240 clusters individuales (DIY). Mayor rendimiento por caja.', image: productImage('pestanas-punto-a-punto-18.jpg') },
+  { id: 'pestanas-20', name: 'Pestañas punto a punto', price: 20000, description: 'Set completo de clusters (30D/40D/50D) en varias medidas, con pinza y pegante.', image: productImage('pestanas-punto-a-punto-20.jpg') },
+  { id: 'pegante', name: 'Pegante de pestañas', price: 8500, description: 'Adhesivo de fijación fuerte para pestañas. Secado rápido y larga duración.', image: productImage('pegante.jpg') },
+  { id: 'pinzas', name: 'Pinzas para pestañas', price: 11000, description: 'Pinzas de precisión con punta curva para una aplicación cómoda y exacta.', image: productImage('pinzas.jpg') },
 ];
 
 const seedRequests: ServiceRequest[] = [
@@ -90,7 +93,7 @@ export function useNexusWorkspace() {
   const [requests, setRequests] = useState<ServiceRequest[]>(() => readStorage('nexus-requests', seedRequests));
   const [messages, setMessages] = useState<ChatMessage[]>(() => readStorage('nexus-messages', seedMessages));
   const [cart, setCart] = useState<CartItem[]>(() => readStorage('nexus-cart', []));
-  const [products, setProducts] = useState<ShopProduct[]>(() => readStorage('nexus-products', defaultProducts));
+  const [products, setProducts] = useState<ShopProduct[]>(() => readStorage('nexus-products-v2', defaultProducts));
   const [role, setRoleState] = useState<WorkspaceRole>(() => readStorage('nexus-demo-role', 'client'));
 
   const setRole = useCallback((nextRole: WorkspaceRole) => {
@@ -137,12 +140,12 @@ export function useNexusWorkspace() {
 
   const addProduct = useCallback((product: Omit<ShopProduct, 'id'>) => {
     const newProduct: ShopProduct = { ...product, id: `p-${Date.now()}` };
-    setProducts((current) => { const next = [...current, newProduct]; writeStorage('nexus-products', next); return next; });
+    setProducts((current) => { const next = [...current, newProduct]; writeStorage('nexus-products-v2', next); return next; });
     return newProduct;
   }, []);
 
   const removeProduct = useCallback((productId: string) => {
-    setProducts((current) => { const next = current.filter((item) => item.id !== productId); writeStorage('nexus-products', next); return next; });
+    setProducts((current) => { const next = current.filter((item) => item.id !== productId); writeStorage('nexus-products-v2', next); return next; });
     setCart((current) => { const next = current.filter((item) => item.productId !== productId); writeStorage('nexus-cart', next); return next; });
   }, []);
 
